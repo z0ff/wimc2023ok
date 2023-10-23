@@ -1,0 +1,21 @@
+{
+  "name": "wimc2023ok",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./**\" dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/z0ff/wimc2023ok.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/z0ff/wimc2023ok/issues"
+  },
+  "homepage": "https://github.com/z0ff/wimc2023ok#readme"
+}
