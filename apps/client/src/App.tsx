@@ -1,9 +1,8 @@
-import './App.css'
+import './App.scss'
 import BG from "./BG.tsx";
 import Body from "./Body.tsx";
 
-function App() {
-
+export const App = () => {
   return (
     <>
         <BG />
