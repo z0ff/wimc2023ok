@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import {useContext, useState} from 'react'
+import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import {WaveColorContext} from "../App.tsx";
 
 export const Body = () => {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
+    const {waveColor,setWaveColor} = useContext(WaveColorContext);
 
     return (
         <>
@@ -19,6 +21,9 @@ export const Body = () => {
             <div className="card">
                 <button onClick={() => setCount((count) => count + 1)}>
                     count is {count}
+                </button>
+                <button onClick={() => setWaveColor("lightblue")}>
+                    color is {waveColor}
                 </button>
                 <p>
                     Edit <code>src/App.tsx</code> and save to test HMR

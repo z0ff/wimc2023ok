@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import {useContext, useEffect, useRef} from "react";
+import {WaveColorContext} from "../App.tsx"
 
 const info = {
     seconds: 0,
@@ -6,15 +7,15 @@ const info = {
 };
 const unit = 100;
 
-function update(canvas: HTMLCanvasElement, color: string[]) {
-    draw(canvas, color);
-
-    // 共通の描画情報の更新
-    info.seconds = info.seconds + 0.014;
-    info.t = info.seconds * Math.PI;
-    // 自身の再起呼び出し
-    setTimeout(update, 1000 / 15, canvas, color);
-}
+// function update(canvas: HTMLCanvasElement, color: string[]) {
+//     draw(canvas, color);
+//
+//     // 共通の描画情報の更新
+//     info.seconds = info.seconds + 0.014;
+//     info.t = info.seconds * Math.PI;
+//     // 自身の再起呼び出し
+//     setTimeout(update, 1000 / 15, canvas, color);
+// }
 
 /**
  * Draw animation function.
@@ -22,16 +23,16 @@ function update(canvas: HTMLCanvasElement, color: string[]) {
  * This function draws one frame of the animation, waits 20ms, and then calls
  * itself again.
  */
-function draw(canvas: HTMLCanvasElement, color: string[]) {
+function draw(canvas: HTMLCanvasElement, color: string) {
     // 対象のcanvasのコンテキストを取得
     const context = canvas.getContext("2d");
     // キャンバスの描画をクリア
     context?.clearRect(0, 0, canvas.width, canvas.height);
 
     //波の重なりを描画 drawWave(canvas, color[数字（波の数を0から数えて指定）], 透過, 波の幅のzoom,波の開始位置の遅れ )
-    drawWave(canvas, color[0], 0.5, 3, 0);
-    drawWave(canvas, color[1], 0.4, 2, 250);
-    drawWave(canvas, color[2], 0.2, 1.6, 100);
+    drawWave(canvas, color, 0.5, 3, 0);
+    //drawWave(canvas, color[1], 0.4, 2, 250);
+    //drawWave(canvas, color[2], 0.2, 1.6, 100);
 }
 
 /**
@@ -75,7 +76,14 @@ function drawSine(canvas: HTMLCanvasElement, t: number, zoom: number, delay: num
 }
 
 export const BG = () => {
+    const {waveColor} = useContext(WaveColorContext);
+    const waveColorRef = useRef(waveColor);
     const canvasRef = useRef(null);
+
+    useEffect(() => {
+        waveColorRef.current = waveColor;
+    }, [waveColor]);
+    
     useEffect(() => {
         if (!canvasRef.current) {
             throw new Error("objectがnull");
@@ -86,13 +94,29 @@ export const BG = () => {
             throw new Error("context取得失敗");
         }
 
+        if (!waveColor) {
+            throw new Error("Failed to get WaveColorContext.");
+        }
+
         //ctx.fillStyle = "#999999";
         //ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         info.seconds = 0;
         info.t = 0;
-        const color = ["#666", "#ccc", "#eee"];
-        update(canvas, color);
+        //const color = [waveColor, "#ccc", "#eee"];
+        //update(canvas, color);
+
+        const update = () => {
+            draw(canvas, waveColorRef.current!);
+
+            // 共通の描画情報の更新
+            info.seconds = info.seconds + 0.014;
+            info.t = info.seconds * Math.PI;
+            // 自身の再起呼び出し
+            setTimeout(update, 1000 / 15);
+        }
+
+        update();
     }, []);
     return <canvas className="BG" ref={canvasRef} />;
 };
