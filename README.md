@@ -20,21 +20,21 @@ pnpm i
 ```
 4. Run development server<br>
 ```shell
-pnpm client-dev
+pnpm client dev
 ```
 
 ### How to use
 #### Run development server
 ```shell
-pnpm client-dev
+pnpm client dev
 ```
 #### Build
 ```shell
-pnpm client-build
+pnpm client build
 ```
 #### Preview in browser
 ```shell
-pnpm client-build
+pnpm client preview
 ```
 
 

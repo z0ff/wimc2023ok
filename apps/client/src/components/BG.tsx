@@ -1,21 +1,11 @@
 import {useContext, useEffect, useRef} from "react";
-import {WaveColorContext} from "../App.tsx"
+import {TdsContext} from "../App.tsx"
 
 const info = {
     seconds: 0,
     t: 0
 };
 const unit = 100;
-
-// function update(canvas: HTMLCanvasElement, color: string[]) {
-//     draw(canvas, color);
-//
-//     // 共通の描画情報の更新
-//     info.seconds = info.seconds + 0.014;
-//     info.t = info.seconds * Math.PI;
-//     // 自身の再起呼び出し
-//     setTimeout(update, 1000 / 15, canvas, color);
-// }
 
 /**
  * Draw animation function.
@@ -76,38 +66,43 @@ function drawSine(canvas: HTMLCanvasElement, t: number, zoom: number, delay: num
 }
 
 export const BG = () => {
-    const {waveColor} = useContext(WaveColorContext);
-    const waveColorRef = useRef(waveColor);
+    const {tds} = useContext(TdsContext);
+    const tdsRef = useRef(tds);
     const canvasRef = useRef(null);
 
     useEffect(() => {
-        waveColorRef.current = waveColor;
-    }, [waveColor]);
-    
+        tdsRef.current = tds;
+    }, [tds]);
+
     useEffect(() => {
-        if (!canvasRef.current) {
+        if (canvasRef.current === null) {
             throw new Error("objectがnull");
         }
         const canvas: HTMLCanvasElement = canvasRef.current;
         const ctx = canvas.getContext("2d");
-        if (!ctx) {
+        if (ctx === null) {
             throw new Error("context取得失敗");
         }
 
-        if (!waveColor) {
-            throw new Error("Failed to get WaveColorContext.");
+        if (tds === undefined) {
+            throw new Error("Failed to get WaterDataContext.");
         }
-
-        //ctx.fillStyle = "#999999";
-        //ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         info.seconds = 0;
         info.t = 0;
-        //const color = [waveColor, "#ccc", "#eee"];
-        //update(canvas, color);
 
         const update = () => {
-            draw(canvas, waveColorRef.current!);
+            const waveColor = (() => {
+                if (tdsRef.current! < 100) {
+                    return "blue";
+                } else if (tdsRef.current! < 200) {
+                    return "cyan";
+                } else {
+                    return "green";
+                }
+            })();
+
+            draw(canvas, waveColor);
 
             // 共通の描画情報の更新
             info.seconds = info.seconds + 0.014;

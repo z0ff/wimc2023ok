@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client-dev": "pnpm --parallel --filter \"./apps/client\" dev",
-    "client-build": "pnpm --parallel --filter \"./apps/client\" build",
-    "client-preview": "pnpm --parallel --filter \"./apps/client\" preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "pnpm --filter \"./apps/client\""
   },
   "repository": {
     "type": "git",

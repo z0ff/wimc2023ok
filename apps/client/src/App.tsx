@@ -1,25 +1,49 @@
 import './App.scss'
 import BG from "./components/BG.tsx";
 import Body from "./components/Body.tsx";
-import {createContext, useState} from "react";
+import {createContext, Dispatch, SetStateAction, useState} from "react";
+import {NextUIProvider} from "@nextui-org/react";
+import DebugControl from "./components/DebugControl.tsx";
 
-export const WaveColorContext = createContext({} as {
-    waveColor: string | null
-    setWaveColor: React.Dispatch<React.SetStateAction<string | null>>
+export type WaterData = {
+    tds: number;
+    ph: number;
+    temp: number;
+};
+
+export const TdsContext = createContext({} as {
+    tds: number | undefined
+    setTds: Dispatch<SetStateAction<number | undefined>>
+});
+
+export const WaterDataContext = createContext({} as {
+    waterData: WaterData | undefined
+    setWaterData: Dispatch<SetStateAction<WaterData | undefined>>
 });
 
 export const App = () => {
-    const [waveColor, setWaveColor] = useState<string | null>("blue");
+    const [tds, setTds] = useState<number | undefined>(100);
+    const [waterData, setWaterData] = useState<WaterData | undefined>({
+        tds: 100,
+        ph: 7,
+        temp: 20
+    });
   return (
-    <>
-        <WaveColorContext.Provider value={{
-            waveColor,
-            setWaveColor
+    <NextUIProvider>
+        <TdsContext.Provider value={{
+            tds,
+            setTds
         }}>
             <BG />
-            <Body />
-        </WaveColorContext.Provider>
-    </>
+            <WaterDataContext.Provider value={{
+                waterData,
+                setWaterData
+            }}>
+                <Body />
+                <DebugControl />
+            </WaterDataContext.Provider>
+        </TdsContext.Provider>
+    </NextUIProvider>
   )
 }
 
