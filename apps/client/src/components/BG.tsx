@@ -1,5 +1,5 @@
 import {useContext, useEffect, useRef} from "react";
-import {TdsContext} from "../App.tsx"
+import {TdsStateContext} from "../App.tsx"
 
 const info = {
     seconds: 0,
@@ -16,8 +16,9 @@ const unit = 100;
 function draw(canvas: HTMLCanvasElement, color: string) {
     // 対象のcanvasのコンテキストを取得
     const context = canvas.getContext("2d");
+    if (context === null) return;
     // キャンバスの描画をクリア
-    context?.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
     //波の重なりを描画 drawWave(canvas, color[数字（波の数を0から数えて指定）], 透過, 波の幅のzoom,波の開始位置の遅れ )
     drawWave(canvas, color, 0.5, 3, 0);
@@ -31,14 +32,15 @@ function draw(canvas: HTMLCanvasElement, color: string) {
  */
 function drawWave(canvas: HTMLCanvasElement, color: string, alpha: number, zoom: number, delay: number) {
     const context = canvas.getContext("2d");
-    context!.fillStyle = color; //塗りの色
-    context!.globalAlpha = alpha;
-    context?.beginPath(); //パスの開始
+    if (context === null) return;
+    context.fillStyle = color; //塗りの色
+    context.globalAlpha = alpha;
+    context.beginPath(); //パスの開始
     drawSine(canvas, info.t / 0.5, zoom, delay);
-    context?.lineTo(canvas.width + 10, canvas.height); //パスをCanvasの右下へ
-    context?.lineTo(0, canvas.height); //パスをCanvasの左下へ
-    context?.closePath(); //パスを閉じる
-    context?.fill(); //塗りつぶす
+    context.lineTo(canvas.width + 10, canvas.height); //パスをCanvasの右下へ
+    context.lineTo(0, canvas.height); //パスをCanvasの左下へ
+    context.closePath(); //パスを閉じる
+    context.fill(); //塗りつぶす
 }
 
 /**
@@ -51,28 +53,29 @@ function drawSine(canvas: HTMLCanvasElement, t: number, zoom: number, delay: num
     const xAxis = Math.floor(canvas.height / 2);
     const yAxis = 0;
     const context = canvas.getContext("2d");
+    if (context === null) return;
     // Set the initial x and y, starting at 0,0 and translating to the origin on
     // the canvas.
     let x = t; //時間を横の位置とする
     let y = Math.sin(x) / zoom;
-    context?.moveTo(yAxis, unit * y + xAxis); //スタート位置にパスを置く
+    context.moveTo(yAxis, unit * y + xAxis); //スタート位置にパスを置く
 
     // Loop to draw segments (横幅の分、波を描画)
     for (let i = yAxis; i <= canvas.width + 10; i += 10) {
         x = t + (-yAxis + i) / unit / zoom;
         y = Math.sin(x - delay) / 3;
-        context?.lineTo(i, unit * y + xAxis);
+        context.lineTo(i, unit * y + xAxis);
     }
 }
 
 export const BG = () => {
-    const {tds} = useContext(TdsContext);
-    const tdsRef = useRef(tds);
+    const {tdsState} = useContext(TdsStateContext);
+    const tdsStateRef = useRef(tdsState);
     const canvasRef = useRef(null);
 
     useEffect(() => {
-        tdsRef.current = tds;
-    }, [tds]);
+        tdsStateRef.current = tdsState;
+    }, [tdsState]);
 
     useEffect(() => {
         if (canvasRef.current === null) {
@@ -84,21 +87,18 @@ export const BG = () => {
             throw new Error("context取得失敗");
         }
 
-        if (tds === undefined) {
-            throw new Error("Failed to get WaterDataContext.");
-        }
-
         info.seconds = 0;
         info.t = 0;
 
         const update = () => {
             const waveColor = (() => {
-                if (tdsRef.current! < 100) {
-                    return "blue";
-                } else if (tdsRef.current! < 200) {
-                    return "cyan";
-                } else {
-                    return "green";
+                switch (tdsStateRef.current) {
+                    case "Less":
+                        return "blue";
+                    case "Over":
+                        return "green";
+                    default:
+                        return "cyan";
                 }
             })();
 
@@ -113,7 +113,7 @@ export const BG = () => {
 
         update();
     }, []);
-    return <canvas className="BG" ref={canvasRef} />;
+    return <canvas className="BG" ref={canvasRef}/>;
 };
 
 export default BG;
