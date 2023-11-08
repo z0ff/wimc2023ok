@@ -1,14 +1,34 @@
-import { ChangeEvent, useContext, useEffect, useRef } from "react";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { TdsContext, PhContext, TempContext } from "../App";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
+import {Card, CardBody, CardHeader} from "@nextui-org/react";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {RelayServer} from "../RelayServer.js";
+import nodeWebSocketLib from "websocket";
+import {ReceiveData} from "../type";
 
 export const DebugControl = () => {
-  const { tds, setTds } = useContext(TdsContext);
-  const { ph, setPh } = useContext(PhContext);
-  const { temp, setTemp } = useContext(TempContext);
+  const [tds, setTds] = useState<number | undefined>(100);
+  const [ph, setPh] = useState<number | undefined>(7);
+    const [temp, setTemp] = useState<number | undefined>(20);
   const tdsRef = useRef(null);
   const phRef = useRef(null);
   const tempRef = useRef(null);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let channel: any;
+  let message: string;
+
+  const handleTdsChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTds(Number(event.target.value!));
+  }
+
+  const handlePhChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPh(Number(event.target.value!));
+  }
+
+  const handleTempChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTemp(Number(event.target.value!));
+  }
 
   useEffect(() => {
     const tdsInput: HTMLInputElement = tdsRef.current!;
@@ -19,34 +39,40 @@ export const DebugControl = () => {
     phInput.value = ph!.toString();
     tempInput.value = temp!.toString();
 
-    /*
-    const tdsValue = Number(tdsInput.value);
-    const phValue = Number(phInput.value);
-    const tempValue = Number(tempInput.value);
+    (async () => {
+      const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebSocketLib, "originURL");
+      channel = await relay.subscribe("medaka2023");
 
-    setTds(tdsValue);
-    setPh(phValue);
-    setTemp(tempValue);
-    */
-  });
+      if (channel === undefined) {
+        return;
+      }
 
-  const handleTdsChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const tdsValue = Number(event.target.value!);
+      console.log("connected (debug)");
 
-    setTds(tdsValue);
-  }
-
-  const handlePhChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const phValue = Number(event.target.value!);
-
-    setPh(phValue);
-  }
-
-  const handleTempChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const tempValue = Number(event.target.value!);
-
-    setTemp(tempValue);
-  }
+      while (true) {
+        const sendData: ReceiveData = {
+            tds: Number(tdsInput.value),
+            ph: Number(phInput.value),
+            temp: Number(tempInput.value),
+            light: {
+                isOn: true,
+                color: {
+                hue: 0,
+                saturation: 0,
+                lightness: 0,
+                }
+            },
+            feedInterval: 0,
+        }
+        message = JSON.stringify(sendData);
+        if (message !== undefined) {
+          console.log(message);
+          channel.send(message);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
+    })();
+  }, []);
 
   return (
     <Card isBlurred>
