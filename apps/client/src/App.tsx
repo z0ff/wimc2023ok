@@ -8,9 +8,20 @@ import nodeWebSocketLib from "websocket";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {RelayServer} from "./RelayServer.js";
-import {ReceiveData} from "./type";
+import {HSLColorData, LightData, ReceiveData} from "./type";
 
 type TdsState = "Moderate" | "Over" | "Less";
+
+export const LightContext = createContext({} as {
+    light: LightData | undefined
+    setLight: Dispatch<SetStateAction<LightData | undefined>>
+});
+
+// HSLColorData型の値を共有するためのContextを作成
+export const ColorContext = createContext({} as {
+    color: HSLColorData | undefined
+    setColor: Dispatch<SetStateAction<HSLColorData | undefined>>
+});
 
 export const TdsContext = createContext({} as {
     tds: number | undefined
@@ -37,6 +48,7 @@ export const App = () => {
     const [tdsState, setTdsState] = useState<TdsState | undefined>("Moderate");
     const [ph, setPh] = useState<number | undefined>(7);
     const [temp, setTemp] = useState<number | undefined>(20);
+    const [light, setLight] = useState<LightData | undefined>({isOn: true, color: {hue: 0, saturation: 0, lightness: 0}});
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let channel: any;
@@ -90,8 +102,13 @@ export const App = () => {
                             temp,
                             setTemp
                         }}>
-                            <BG/>
-                            <Body/>
+                            <LightContext.Provider value={{
+                                light,
+                                setLight
+                            }}>
+                                <BG/>
+                                <Body/>
+                            </LightContext.Provider>
                             <DebugControl/>
                         </TempContext.Provider>
                     </PhContext.Provider>

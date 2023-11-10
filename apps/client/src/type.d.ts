@@ -12,3 +12,14 @@ export type ReceiveData = {
     }
     feedInterval: number;
 }
+
+export type LightData = {
+    isOn: boolean;
+    color: HSLColorData;
+}
+
+export type HSLColorData = {
+    hue: number;
+    saturation: number;
+    lightness: number;
+}

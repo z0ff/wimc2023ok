@@ -1,6 +1,7 @@
 import {PhMeter} from "./PhMeter.tsx";
 import TdsMeter from "./TdsMeter.tsx";
 import TempMeter from "./TempMeter.tsx";
+import LightControl from "./LightControl.tsx";
 
 export const Body = () => {
     return (
@@ -8,6 +9,7 @@ export const Body = () => {
             <TdsMeter/>
             <PhMeter/>
             <TempMeter/>
+            <LightControl/>
         </>
 
     )
