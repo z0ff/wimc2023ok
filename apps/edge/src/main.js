@@ -50,7 +50,7 @@ async function main() {
 		const lightRgbColor = convert.hsl.rgb(lightHslColor.hue, lightHslColor.saturation, lightHslColor.lightness);
 
 		// ライトを点灯する
-		const autoLight = new AutoLight(Number(lightIsOn), lightRgbColor[0], lightRgbColor[1], lightRgbColor[2]);
+		const autoLight = new AutoLight(lightIsOn, lightRgbColor[0], lightRgbColor[1], lightRgbColor[2]);
 		await autoLight.changeStatus();
 
 		// 送信用データを作成する

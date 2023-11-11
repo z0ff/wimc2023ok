@@ -11,8 +11,8 @@ import NPIX from "@chirimen/neopixel-i2c";
  */
 export default class AutoLight {
     constructor(status, r, g, b) {
-        /** 点灯状態（1:点灯 0:消灯） */
-        this.status = status;
+        /** 点灯状態（true:点灯 false:消灯） */
+        this.status = false;
         /** 赤輝度 */
         this.r = r;
         /** 緑輝度 */
@@ -32,7 +32,7 @@ export default class AutoLight {
         const npix = new NPIX(port, 0x41);
         await npix.init(this.neoPixels);
 
-        if (this.status === 0) {
+        if (this.status === false) {
             this.r = this.g = this.b = 0;
         }
 
