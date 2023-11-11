@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chirimen/neopixel-i2c": "^1.0.3",
     "@chirimen/pca9685": "^1.0.7",
     "color-convert": "^2.0.1",
     "node-web-gpio": "^1.0.32",

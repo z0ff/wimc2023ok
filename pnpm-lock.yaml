@@ -85,6 +85,9 @@ importers:
 
   apps/edge:
     dependencies:
+      '@chirimen/neopixel-i2c':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@chirimen/pca9685':
         specifier: ^1.0.7
         version: 1.0.7
@@ -342,6 +345,10 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
     dev: true
+
+  /@chirimen/neopixel-i2c@1.0.3:
+    resolution: {integrity: sha512-W3ZZDa1/NqAz9dZXc1/2t+fhgy3NIMcUMNo1AlLu/zsOKjnF0YAmvtS0X9qQoryLOsmRNl7QMXqPKfJUE08U6w==}
+    dev: false
 
   /@chirimen/pca9685@1.0.7:
     resolution: {integrity: sha512-LktEWn5YY4JDhS/tofi8nRntjm5JHIrlE3kikKxG0+MOSKpiYLzfaBumFug5mC9Djz9YQBhfUywxn4bQaeTonA==}
