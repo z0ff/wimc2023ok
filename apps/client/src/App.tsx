@@ -3,7 +3,7 @@ import BG from "./components/BG.tsx";
 import Body from "./components/Body.tsx";
 import {createContext, Dispatch, SetStateAction, useEffect, useState} from "react";
 import {NextUIProvider} from "@nextui-org/react";
-import DebugControl from "./components/DebugControl.tsx";
+//import DebugControl from "./components/DebugControl.tsx";
 import nodeWebSocketLib from "websocket";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -124,7 +124,9 @@ export const App = () => {
                                 <p>{light?.color.saturation}</p>
                                 <p>{light?.color.lightness}</p>
                             </LightContext.Provider>
+                            {/*
                             <DebugControl/>
+                            */}
                         </TempContext.Provider>
                     </PhContext.Provider>
                 </TdsStateContext.Provider>

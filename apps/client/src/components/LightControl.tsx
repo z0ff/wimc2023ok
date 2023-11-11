@@ -1,4 +1,4 @@
-import {LightContext} from "../App.tsx";
+import {LightContext, sendMessage} from "../App.tsx";
 import {useContext, useState} from "react";
 import {Card, CardBody, Switch} from "@nextui-org/react";
 import {HslColorPicker, HslColor} from "react-colorful";
@@ -13,6 +13,7 @@ export const LightControl = () => {
     const handleIsOnToggle = () => {
         setIsOn(!isOn);
         setLight({isOn: isOn!, color: color!});
+        sendMessage(JSON.stringify(light));
     }
 
     const handleColorChange = (color: HslColor) => {
@@ -22,6 +23,7 @@ export const LightControl = () => {
         setColor({hue: color.h, saturation: color.s, lightness: color.l});
         //colorRef.current = {hue: color.hsl.h, saturation: color.hsl.s, lightness: color.hsl.l};
         setLight({isOn: isOn!, color: {hue: color.h, saturation: color.s, lightness: color.l}});
+        sendMessage(JSON.stringify(light));
     }
 
     return (
