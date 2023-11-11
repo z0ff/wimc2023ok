@@ -4,6 +4,7 @@ import PhSensor from './PhSensor.js'
 import AutoLight from "./AutoLight";
 import {connectRelay, getLightColor, getLightIsOn, sendData} from "./ChirimenClient";
 import convert from 'color-convert';
+import {initFeeder} from "./FeederController";
 
 const ERROR_VALUE = 85000;
 
@@ -25,6 +26,7 @@ async function sleep(ms) {
 async function main() {
 	// RelayServerに接続する
 	await connectRelay();
+	await initFeeder();
 
 	while (true) {
 		// 水温を取得する

@@ -1,5 +1,6 @@
 import nodeWebsocketLib from "websocket"
 import {RelayServer} from "./RelayServer";
+import {feed} from "./FeederController";
 
 //const ch = (async() => {
 //    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib);
@@ -26,10 +27,11 @@ export async function connectRelay() {
     channel.onmessage = receiveMsg;
 }
 
-function receiveMsg(msg) {
+async function receiveMsg(msg) {
     console.log(msg.data);
     if (msg.data === "feed") {
         console.log("feed");
+        await feed();
     } else {
         const data = JSON.parse(msg.data);
         if (data.light !== undefined) {
