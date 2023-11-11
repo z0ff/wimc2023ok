@@ -12,7 +12,7 @@ import NPIX from "@chirimen/neopixel-i2c";
 export default class AutoLight {
     constructor(status, r, g, b) {
         /** 点灯状態（true:点灯 false:消灯） */
-        this.status = false;
+        this.status = status;
         /** 赤輝度 */
         this.r = r;
         /** 緑輝度 */
