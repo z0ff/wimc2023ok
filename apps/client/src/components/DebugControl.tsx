@@ -4,15 +4,24 @@ import {Card, CardBody, CardHeader} from "@nextui-org/react";
 // @ts-ignore
 import {RelayServer} from "../RelayServer.js";
 import nodeWebSocketLib from "websocket";
-import {ReceiveData} from "../type";
+import {LightData, ReceiveData} from "../type";
 
 export const DebugControl = () => {
   const [tds, setTds] = useState<number | undefined>(100);
   const [ph, setPh] = useState<number | undefined>(7);
-    const [temp, setTemp] = useState<number | undefined>(20);
+  const [temp, setTemp] = useState<number | undefined>(20);
   const tdsRef = useRef(null);
   const phRef = useRef(null);
   const tempRef = useRef(null);
+
+  const light: LightData = {
+    isOn: true,
+    color: {
+      hue: 0,
+      saturation: 0,
+      lightness: 0,
+    }
+  }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let channel: any;
@@ -55,11 +64,11 @@ export const DebugControl = () => {
             ph: Number(phInput.value),
             temp: Number(tempInput.value),
             light: {
-                isOn: true,
+                isOn: light.isOn,
                 color: {
-                hue: 0,
-                saturation: 0,
-                lightness: 0,
+                    hue: light.color.hue,
+                    saturation: light.color.saturation,
+                    lightness: light.color.lightness,
                 }
             },
             feedInterval: 0,

@@ -108,6 +108,10 @@ export const App = () => {
                             }}>
                                 <BG/>
                                 <Body/>
+                                <p>{light?.isOn}</p>
+                                <p>{light?.color.hue}</p>
+                                <p>{light?.color.saturation}</p>
+                                <p>{light?.color.lightness}</p>
                             </LightContext.Provider>
                             <DebugControl/>
                         </TempContext.Provider>

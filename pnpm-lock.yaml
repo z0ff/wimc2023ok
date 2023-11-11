@@ -87,6 +87,12 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5(sass@1.69.4)
 
+  apps/server:
+    dependencies:
+      websocket:
+        specifier: ^1.0.34
+        version: 1.0.34
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:

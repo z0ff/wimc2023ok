@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "pnpm --filter \"./apps/client\""
+    "client": "pnpm --filter \"./apps/client\"",
+    "edge": "pnpm --filter \"./apps/edge\""
   },
   "repository": {
     "type": "git",

@@ -1,11 +1,12 @@
 import {useContext, useEffect, useRef} from "react";
-import {TdsStateContext} from "../App.tsx"
+import {LightContext, TdsStateContext} from "../App.tsx"
 
 const info = {
     seconds: 0,
     t: 0
 };
 const unit = 100;
+let bgColor = "black";
 
 /**
  * Draw animation function.
@@ -19,6 +20,9 @@ function draw(canvas: HTMLCanvasElement, color: string) {
     if (context === null) return;
     // キャンバスの描画をクリア
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = bgColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
 
     //波の重なりを描画 drawWave(canvas, color[数字（波の数を0から数えて指定）], 透過, 波の幅のzoom,波の開始位置の遅れ )
     drawWave(canvas, color, 0.5, 3, 0);
@@ -70,12 +74,18 @@ function drawSine(canvas: HTMLCanvasElement, t: number, zoom: number, delay: num
 
 export const BG = () => {
     const {tdsState} = useContext(TdsStateContext);
+    const {light} = useContext(LightContext);
     const tdsStateRef = useRef(tdsState);
+    const ligitRef = useRef(light);
     const canvasRef = useRef(null);
 
     useEffect(() => {
         tdsStateRef.current = tdsState;
     }, [tdsState]);
+
+    useEffect(() => {
+        ligitRef.current = light;
+    }, [light]);
 
     useEffect(() => {
         if (canvasRef.current === null) {
@@ -91,6 +101,13 @@ export const BG = () => {
         info.t = 0;
 
         const update = () => {
+            // 背景色の更新
+            if (ligitRef.current?.isOn) {
+                bgColor = `hsl(${ligitRef.current?.color.hue}, ${ligitRef.current?.color.saturation}%, ${ligitRef.current?.color.lightness}%)`;
+            } else {
+                bgColor = "black";
+            }
+
             const waveColor = (() => {
                 switch (tdsStateRef.current) {
                     case "Less":

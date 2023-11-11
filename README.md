@@ -1,6 +1,6 @@
 # Web x IoT Makers Challenge 2023 Okayama
 
-## Client
+## Client (Web Frontend)
 _work in progress_
 
 ### Get Started
@@ -18,7 +18,7 @@ _work in progress_
 ```shell
 pnpm i
 ```
-4. Run development server<br>
+4. Run development server
 ```shell
 pnpm client dev
 ```
@@ -38,5 +38,20 @@ pnpm client preview
 ```
 
 
-## Server
-_to be determined_
+## Edge Device (ex. Raspberry Pi)
+_work in progress_
+
+### Get Started
+1. cd to `apps/edge` directory
+```shell
+cd ./apps/edge
+```
+2. Install dependencies
+```shell
+npm i
+```
+3. Run application
+```shell
+npm run start
+```
+
