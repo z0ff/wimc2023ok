@@ -1,10 +1,10 @@
 import WaterTemperatureSensor from './WaterTemperatureSensor.js'
 import TdsSensor from './TdsSensor.js'
 import PhSensor from './PhSensor.js'
-import AutoLight from "./AutoLight";
-import {connectRelay, getLightColor, getLightIsOn, sendData} from "./ChirimenClient";
+import AutoLight from './AutoLight.js';
+import {connectRelay, getLightColor, getLightIsOn, sendData} from "./ChirimenClient.js";
 import convert from 'color-convert';
-import {initFeeder} from "./FeederController";
+import {initFeeder} from "./FeederController.js";
 
 const ERROR_VALUE = 85000;
 

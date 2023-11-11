@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .: {}
@@ -89,9 +85,18 @@ importers:
 
   apps/edge:
     dependencies:
+      '@chirimen/pca9685':
+        specifier: ^1.0.7
+        version: 1.0.7
       color-convert:
         specifier: ^2.0.1
         version: 2.0.1
+      node-web-gpio:
+        specifier: ^1.0.32
+        version: 1.0.32
+      node-web-i2c:
+        specifier: ^1.1.36
+        version: 1.1.36
       websocket:
         specifier: ^1.0.34
         version: 1.0.34
@@ -337,6 +342,10 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
     dev: true
+
+  /@chirimen/pca9685@1.0.7:
+    resolution: {integrity: sha512-LktEWn5YY4JDhS/tofi8nRntjm5JHIrlE3kikKxG0+MOSKpiYLzfaBumFug5mC9Djz9YQBhfUywxn4bQaeTonA==}
+    dev: false
 
   /@emotion/is-prop-valid@0.8.8:
     resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
@@ -2612,6 +2621,12 @@ packages:
     resolution: {integrity: sha512-Qy8SOE+x5F40jebCj4vPoA/Y6J2Zd6h9ihMPYP8U8//dDEOK4Yu0ShOTKqEmWPR+4AdV4sls/VCaR6azEFvKKg==}
     dev: false
 
+  /@types/i2c-bus@5.1.2:
+    resolution: {integrity: sha512-Zph1a3TZnvU8yUEhR8Yvv+Fv61dE3WQ2gMs4B2KgBUuKYE73quagMvmUN9EvRIbf4B+zq1WKMYjLOafdNus1ig==}
+    dependencies:
+      '@types/node': 20.8.10
+    dev: false
+
   /@types/json-schema@7.0.14:
     resolution: {integrity: sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==}
     dev: true
@@ -2654,7 +2669,6 @@ packages:
     resolution: {integrity: sha512-TlgT8JntpcbmKUFzjhsyhGfP2fsiz1Mv56im6enJ905xG1DAYesxJaeSbGqQmAw8OWPdhyJGhGSQGKRNJ45u9w==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
 
   /@types/prop-types@15.7.9:
     resolution: {integrity: sha512-n1yyPsugYNSmHgxDFjicaI2+gCNjsBck8UX9kuofAKlc0h1bL+20oSF72KeNaW2DUlesbEVCFgyV2dPGTiY42g==}
@@ -2933,6 +2947,12 @@ packages:
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
+
+  /bindings@1.5.0:
+    resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    dependencies:
+      file-uri-to-path: 1.0.0
+    dev: false
 
   /brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -3383,6 +3403,10 @@ packages:
       flat-cache: 3.1.1
     dev: true
 
+  /file-uri-to-path@1.0.0:
+    resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    dev: false
+
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
@@ -3540,6 +3564,15 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
+
+  /i2c-bus@5.2.3:
+    resolution: {integrity: sha512-kzFgU0OSIZlaeUUa+VK7L+kkxnj4feimCVQDOPrzj0cTaB+hNweTsO8/j7QvW2gRgWQ7ds5IpfFjpBrX+fMNng==}
+    engines: {node: '>=10.0.0'}
+    requiresBuild: true
+    dependencies:
+      bindings: 1.5.0
+      nan: 2.18.0
+    dev: false
 
   /ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
@@ -3782,6 +3815,10 @@ packages:
       object-assign: 4.1.1
       thenify-all: 1.6.0
 
+  /nan@2.18.0:
+    resolution: {integrity: sha512-W7tfG7vMOGtD30sHoZSSc/JVYiyDPEyQVso/Zz+/uQd0B0L46gtC+pHha5FFMRpil6fm/AoEcRWyOVi4+E/f8w==}
+    dev: false
+
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -3807,6 +3844,18 @@ packages:
   /node-releases@2.0.13:
     resolution: {integrity: sha512-uYr7J37ae/ORWdZeQ1xxMJe3NtdmqMC/JZK+geofDrkLUApKRHPd18/TxtBOJ4A0/+uUIliorNrfYV6s1b02eQ==}
     dev: true
+
+  /node-web-gpio@1.0.32:
+    resolution: {integrity: sha512-VzQQGKe4dP0D6/tngpLZuCa6npEWd77j8FuuGWwmwoXQoTrKu/2r043EvpjJgbolmPc7wfG8ThSxl4nelbUIEQ==}
+    dev: false
+
+  /node-web-i2c@1.1.36:
+    resolution: {integrity: sha512-Uw1De35GG8iOQSSe1e8PCUwkWll5wvQxEEJQY7p7EDAe07S/UEkwFRvM2qd/2C9irSTCzyLrMNX8EANNITfbHw==}
+    dependencies:
+      '@types/i2c-bus': 5.1.2
+      '@types/node': 20.8.10
+      i2c-bus: 5.2.3
+    dev: false
 
   /normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -4391,7 +4440,6 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-    dev: true
 
   /update-browserslist-db@1.0.13(browserslist@4.22.1):
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
@@ -4569,3 +4617,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
