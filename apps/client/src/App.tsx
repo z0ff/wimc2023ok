@@ -43,6 +43,17 @@ export const TempContext = createContext({} as {
     setTemp: Dispatch<SetStateAction<number | undefined>>
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let channel: any;
+
+// メッセージを送信
+export const sendMessage = (message: string) => {
+    if (channel === undefined) {
+        return;
+    }
+    channel.send(message);
+}
+
 export const App = () => {
     const [tds, setTds] = useState<number | undefined>(100);
     const [tdsState, setTdsState] = useState<TdsState | undefined>("Moderate");
@@ -51,8 +62,8 @@ export const App = () => {
     const [light, setLight] = useState<LightData | undefined>({isOn: true, color: {hue: 0, saturation: 0, lightness: 0}});
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let channel: any;
-    let message: string | undefined
+    //let channel: any;
+    let message: string | undefined;
     let receivedData: ReceiveData | undefined;
 
     useEffect(() => {
@@ -70,7 +81,7 @@ export const App = () => {
             // @ts-ignore
             channel.onmessage = (msg) => {
                 message = msg.data;
-                if (message === undefined) {
+                if (message === undefined || message === "feed") {
                     return;
                 }
                 receivedData = JSON.parse(message);
