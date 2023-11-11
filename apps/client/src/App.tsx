@@ -12,6 +12,11 @@ import {RGBColorData, LightData, ReceiveData} from "./type";
 
 type TdsState = "Moderate" | "Over" | "Less";
 
+export const FeedIntervalContext = createContext({} as {
+    feedInterval: number | undefined
+    setFeedInterval: Dispatch<SetStateAction<number | undefined>>
+});
+
 export const LightContext = createContext({} as {
     light: LightData | undefined
     setLight: Dispatch<SetStateAction<LightData | undefined>>
@@ -60,6 +65,7 @@ export const App = () => {
     const [ph, setPh] = useState<number | undefined>(7);
     const [temp, setTemp] = useState<number | undefined>(20);
     const [light, setLight] = useState<LightData | undefined>({isOn: true, color: {r: 0, g: 0, b: 0}});
+    const [feedInterval, setFeedInterval] = useState<number | undefined>(5);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     //let channel: any;
@@ -92,6 +98,8 @@ export const App = () => {
                 setTds(receivedData.tds);
                 setPh(receivedData.ph);
                 setTemp(receivedData.temp);
+                setLight(receivedData.light);
+                setFeedInterval(receivedData.feedInterval);
             }
         })();
     }, []);
@@ -117,12 +125,13 @@ export const App = () => {
                                 light,
                                 setLight
                             }}>
-                                <BG/>
-                                <Body/>
-                                <p>{light?.isOn}</p>
-                                <p>{light?.color.r}</p>
-                                <p>{light?.color.g}</p>
-                                <p>{light?.color.b}</p>
+                                <FeedIntervalContext.Provider value={{
+                                    feedInterval,
+                                    setFeedInterval
+                                }}>
+                                    <BG/>
+                                    <Body/>
+                                </FeedIntervalContext.Provider>
                             </LightContext.Provider>
                             {/*
                             <DebugControl/>

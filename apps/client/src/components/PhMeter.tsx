@@ -1,22 +1,71 @@
-import {Card, CardBody, CardFooter, CardHeader, Progress} from "@nextui-org/react";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Popover,
+    PopoverContent,
+    PopoverTrigger
+} from "@nextui-org/react";
 import {useContext} from "react";
 import {PhContext} from "../App";
+import GaugeComponent from "react-gauge-component";
 
 export const PhMeter = () => {
     const {ph} = useContext(PhContext);
 
     return (
         <Card isBlurred>
-            <CardHeader>
+            <CardHeader className="h-14">
                 <p>pH</p>
             </CardHeader>
             <CardBody>
-                <Progress
-                    value={ph}
-                    maxValue={14}
-                    formatOptions={{}}
-                    showValueLabel={true}
-                />
+                    <GaugeComponent
+                        type="semicircle"
+                        arc={{
+                            width: 0.1,
+                            subArcs: [
+                                {
+                                    limit: 5,
+                                    color: 'red',
+                                    showTick: true
+                                },
+                                {
+                                    limit: 9,
+                                    color: 'lime',
+                                    showTick: true
+                                },
+                                {
+                                    limit: 14,
+                                    color: 'purple',
+                                    showTick: true
+                                }
+                            ]
+                        }}
+                        pointer={{
+                            type: "arrow"
+                        }}
+                        labels={{
+                            valueLabel: {
+                                style: {
+                                    fontSize: 20,
+                                    fill: '#000000',
+                                    textShadow: "black 0px 0px 0px"
+                                }
+                            },
+                            tickLabels: {
+                                type: "outer",
+                                ticks: [
+                                    {value: 0}
+                                ]
+                            }
+
+                        }}
+                        value={ph}
+                        minValue={1}
+                        maxValue={14}
+                    />
                 {(() => {
                     if (ph === undefined){
                         return <label>pH値の取得に失敗しました．</label>;
@@ -30,9 +79,15 @@ export const PhMeter = () => {
                     }
                 })()}
             </CardBody>
-            <CardFooter>
-                <p>pHは、水溶液の酸性・アルカリ性を表す値です。</p>
-                <p>適正値は5~9です．</p>
+            <CardFooter className="align-">
+                <Popover placement="bottom" showArrow={true}>
+                    <PopoverTrigger>
+                        <Button>pHについてくわしく</Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <p>pHは、水溶液の酸性・アルカリ性を表す値です。</p>
+                    </PopoverContent>
+                </Popover>
             </CardFooter>
         </Card>
     )

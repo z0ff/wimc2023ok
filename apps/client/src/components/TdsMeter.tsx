@@ -1,6 +1,17 @@
-import {Card, CardBody, CardFooter, CardHeader, Input, Progress} from "@nextui-org/react";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Input,
+    Popover,
+    PopoverContent,
+    PopoverTrigger
+} from "@nextui-org/react";
 import {useContext, useState} from "react";
 import {TdsContext, TdsStateContext} from "../App.tsx";
+import GaugeComponent from "react-gauge-component";
 
 export const TdsMeter = () => {
     const {tds} = useContext(TdsContext);
@@ -9,22 +20,67 @@ export const TdsMeter = () => {
 
     return (
         <Card isBlurred>
-            <CardHeader>
-                <p>TDS増加量</p>
-            </CardHeader>
-            <CardBody>
+            <CardHeader className="h-14">
+                <div className="flex gap-2 items-center">
+                <p className="flex-none">TDS増加量</p>
+                <div className="flex-auto">
                 <Input
                     label="基準値"
+                    labelPlacement="outside-left"
+                    size="sm"
                     placeholder="水替え直後のTDS値を入力してください"
                     value={tdsBase.toString()}
                     onValueChange={(v) => setTdsBase(Number(v))}
                 />
-                <Progress
+                </div>
+                </div>
+            </CardHeader>
+            <CardBody>
+                <GaugeComponent
+                    type="semicircle"
+                    arc={{
+                        width: 0.1,
+                        subArcs: [
+                            {
+                                limit: -50,
+                                color: 'blue',
+                                showTick: true
+                            },
+                            {
+                                limit: 100,
+                                color: 'lime',
+                                showTick: true
+                            },
+                            {
+                                limit: 500,
+                                color: 'red',
+                                showTick: true
+                            }
+                        ]
+                    }}
+                    pointer={{
+                        type: "arrow"
+                    }}
+                    labels={{
+                        valueLabel: {
+                            formatTextValue: value => '+' + value + 'ppm',
+                            style: {
+                                fontSize: 20,
+                                fill: '#000000',
+                                textShadow: "black 0px 0px 0px"
+                            }
+                        },
+                        tickLabels: {
+                            type: "outer",
+                            ticks: [
+                                {value: 0}
+                            ]
+                        }
+
+                    }}
                     value={tds !== undefined ? tds - tdsBase : NaN}
                     minValue={-500}
                     maxValue={500}
-                    formatOptions={{}}
-                    showValueLabel={true}
                 />
                 {(() => {
                     if (tds === undefined) {
@@ -43,7 +99,14 @@ export const TdsMeter = () => {
                 })()}
             </CardBody>
             <CardFooter>
-                <p>TDSは、水に溶けている不純物の濃度を表す値です。</p>
+                <Popover placement="bottom" showArrow={true}>
+                    <PopoverTrigger>
+                        <Button>TDSについてくわしく</Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <p>TDSは、水に溶けている不純物の濃度を表す値です。</p>
+                    </PopoverContent>
+                </Popover>
             </CardFooter>
         </Card>
     )

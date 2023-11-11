@@ -2,19 +2,7 @@ export type ReceiveData = {
     tds: number;
     ph: number;
     temp: number;
-    light: {
-        isOn: boolean;
-        //const timeoutId = setTimeout(update, 1000 / 15);
-
-        //return() => {
-        //    clearTimeout(timeoutId);
-        //}
-        color: {
-            hue: number;
-            saturation: number;
-            lightness: number;
-        }
-    }
+    light: LightData;
     feedInterval: number;
 }
 
