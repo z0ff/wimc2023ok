@@ -39,7 +39,7 @@ export default class PhSensor {
         
         // 取得した値を補正する
         const voltage = 3.3 * rawData / 1024.0;
-        const value = 3.5 + voltage + 0.00;
+        const value = (3.5 + voltage + 0.00) * 2;
             
         return value;
     }
