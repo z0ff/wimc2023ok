@@ -1,5 +1,4 @@
-import { requestGPIOAccess } from "./node_modules/node-web-gpio/dist/index.js";
-import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
+import { requestI2CAccess } from "node-web-i2c";
 import PCA9685 from "@chirimen/pca9685";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 
