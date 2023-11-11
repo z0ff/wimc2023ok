@@ -13,9 +13,9 @@ let channel;
 
 let lightIsOn = true;
 const lightColor = {
-    hue: 0,
-    saturation: 0,
-    lightness: 0
+    r: 0,
+    g: 0,
+    b: 0
 }
 
 export const getLightIsOn = () => lightIsOn;
@@ -40,10 +40,10 @@ async function receiveMsg(msg) {
                 lightIsOn = data.light.isOn;
             }
             if (data.light.color !== undefined) {
-                console.log("light color: " + data.light.color.hue + ", " + data.light.color.saturation + ", " + data.light.color.lightness);
-                lightColor.hue = data.light.color.hue;
-                lightColor.saturation = data.light.color.saturation;
-                lightColor.lightness = data.light.color.lightness;
+                console.log("light color: " + data.light.color.r + ", " + data.light.color.g + ", " + data.light.color.b);
+                lightColor.r = data.light.color.r;
+                lightColor.g = data.light.color.g;
+                lightColor.b = data.light.color.b;
             }
         }
         if (data.feedInterval !== undefined) {

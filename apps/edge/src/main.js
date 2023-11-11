@@ -3,8 +3,6 @@ import TdsSensor from './TdsSensor.js'
 import PhSensor from './PhSensor.js'
 import AutoLight from './AutoLight.js';
 import {connectRelay, getLightColor, getLightIsOn, sendData} from "./ChirimenClient.js";
-import convert from 'color-convert';
-import {ColorTranslator} from "colortranslator";
 import {initFeeder} from "./FeederController.js";
 
 const ERROR_VALUE = 85000;
@@ -45,14 +43,7 @@ async function main() {
 		// ライトの点灯状態を取得する
 		const lightIsOn = getLightIsOn();
 		// 照明の色を取得する
-		const lightHslColor = getLightColor();
-
-		// 照明の色をRGBに変換する
-		// const lightRgbColor = convert.hsl.rgb([lightHslColor.hue, lightHslColor.saturation, lightHslColor.lightness]);
-		// console.log(`r: ${lightRgbColor[0]}, g: ${lightRgbColor[1]}, b: ${lightRgbColor[2]}`);
-		const lightColor = new ColorTranslator({h: lightHslColor.hue, s: lightHslColor.saturation, l: lightHslColor.lightness})
-		const lightRgbColor = lightColor.RGBObject
-
+		const lightRgbColor = getLightColor();
 
 		// ライトを点灯する
 		const autoLight = new AutoLight(lightIsOn, lightRgbColor.r, lightRgbColor.g, lightRgbColor.b);
@@ -65,7 +56,7 @@ async function main() {
 			temp: temperature,
 			light: {
 				isOn: lightIsOn,
-				color: lightHslColor
+				color: lightRgbColor
 			},
 			feedInterval: 1
 		}

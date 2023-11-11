@@ -15,7 +15,13 @@ export type ReceiveData = {
 
 export type LightData = {
     isOn: boolean;
-    color: HSLColorData;
+    color: RGBColorData;
+}
+
+export type RGBColorData = {
+    r: number,
+    g: number,
+    b: number
 }
 
 export type HSLColorData = {

@@ -1,7 +1,7 @@
 import {LightContext, sendMessage} from "../App.tsx";
 import {useContext, useState} from "react";
 import {Card, CardBody, Switch} from "@nextui-org/react";
-import {HslColorPicker, HslColor} from "react-colorful";
+import {RgbColorPicker, RgbColor} from "react-colorful";
 
 export const LightControl = () => {
     const {light, setLight} = useContext(LightContext);
@@ -16,13 +16,13 @@ export const LightControl = () => {
         sendMessage(JSON.stringify(light));
     }
 
-    const handleColorChange = (color: HslColor) => {
+    const handleColorChange = (color: RgbColor) => {
         if (color === undefined) {
             return;
         }
-        setColor({hue: color.h, saturation: color.s, lightness: color.l});
+        setColor({r: color.r, g: color.g, b: color.b});
         //colorRef.current = {hue: color.hsl.h, saturation: color.hsl.s, lightness: color.hsl.l};
-        setLight({isOn: isOn!, color: {hue: color.h, saturation: color.s, lightness: color.l}});
+        setLight({isOn: isOn!, color: {r: color.r, g: color.g, b: color.b}});
         sendMessage(JSON.stringify(light));
     }
 
@@ -30,7 +30,7 @@ export const LightControl = () => {
         <Card isBlurred>
             <CardBody>
                 <Switch isSelected={isOn} onValueChange={handleIsOnToggle}>ライト</Switch>
-                <HslColorPicker onChange={handleColorChange} />
+                <RgbColorPicker onChange={handleColorChange} />
             </CardBody>
         </Card>
     )
