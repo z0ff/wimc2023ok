@@ -16,6 +16,7 @@
     "color-convert": "^2.0.1",
     "node-web-gpio": "^1.0.32",
     "node-web-i2c": "^1.1.36",
+    "python-shell": "^5.0.0",
     "websocket": "^1.0.34"
   }
 }
