@@ -22,7 +22,7 @@ export const getLightIsOn = () => lightIsOn;
 export const getLightColor = () => lightColor;
 
 export async function connectRelay() {
-    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib);
+    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib, "originURL");
     channel = await relay.subscribe("medaka2023");
     channel.onmessage = receiveMsg;
 }
