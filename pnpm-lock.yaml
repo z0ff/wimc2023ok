@@ -87,8 +87,11 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5(sass@1.69.4)
 
-  apps/server:
+  apps/edge:
     dependencies:
+      color-convert:
+        specifier: ^2.0.1
+        version: 2.0.1
       websocket:
         specifier: ^1.0.34
         version: 1.0.34

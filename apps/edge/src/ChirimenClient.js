@@ -10,7 +10,17 @@ import {RelayServer} from "./RelayServer";
 
 let channel;
 
-export async function connect() {
+let lightIsOn = true;
+const lightColor = {
+    hue: 0,
+    saturation: 0,
+    lightness: 0
+}
+
+export const getLightIsOn = () => lightIsOn;
+export const getLightColor = () => lightColor;
+
+export async function connectRelay() {
     const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib);
     channel = await relay.subscribe("medaka2023");
     channel.onmessage = receiveMsg;
@@ -25,52 +35,23 @@ function receiveMsg(msg) {
         if (data.light !== undefined) {
             if (data.light.isOn !== undefined) {
                 console.log("light: " + data.light.isOn);
+                lightIsOn = data.light.isOn;
             }
             if (data.light.color !== undefined) {
                 console.log("light color: " + data.light.color.hue + ", " + data.light.color.saturation + ", " + data.light.color.lightness);
+                lightColor.hue = data.light.color.hue;
+                lightColor.saturation = data.light.color.saturation;
+                lightColor.lightness = data.light.color.lightness;
             }
         }
         if (data.feedInterval !== undefined) {
             console.log("feedInterval: " + data.feedInterval);
         }
     }
-    // switch(msg.data) {
-    //     case "feed":
-    //         console.log("feed");
-    //         break;
-    //     default:
-    //         const data = JSON.parse(msg.data);
-    //         if (data.light !== undefined) {
-    //             if (data.light.isOn !== undefined) {
-    //                 console.log("light: " + data.light.isOn);
-    //             }
-    //             if (data.light.color !== undefined) {
-    //                 console.log("light color: " + data.light.color.hue + ", " + data.light.color.saturation + ", " + data.light.color.lightness);
-    //             }
-    //         }
-    //         if (data.feedInterval !== undefined) {
-    //             console.log("feedInterval: " + data.feedInterval);
-    //         }
-    //         break;
-    // }
 }
 
-export async function sendData() {
+export async function sendData(data) {
     if (channel === undefined) return;
-    const data = {
-        tds: 0,
-        ph: 1,
-        temp: 0,
-        light: {
-            isOn: true,
-            color: {
-                hue: 0,
-                saturaton: 0,
-                lightness: 0
-            }
-        },
-        feedInterval: 1
-    }
 
     while (true) {
         channel.send(JSON.stringify(data));

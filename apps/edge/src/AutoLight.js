@@ -32,7 +32,7 @@ export default class AutoLight {
         const npix = new NPIX(port, 0x41);
         await npix.init(this.neoPixels);
 
-        if (this.status == 0) {
+        if (this.status === 0) {
             this.r = this.g = this.b = 0;
         }
 
