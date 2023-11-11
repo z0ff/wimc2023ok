@@ -1,6 +1,6 @@
 import nodeWebsocketLib from "websocket"
-import {RelayServer} from "./RelayServer";
-import {feed} from "./FeederController";
+import {RelayServer} from "./RelayServer.js";
+import {feed} from "./FeederController.js";
 
 //const ch = (async() => {
 //    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib);
