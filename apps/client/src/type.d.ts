@@ -2,20 +2,24 @@ export type ReceiveData = {
     tds: number;
     ph: number;
     temp: number;
-    light: {
-        isOn: boolean;
-        color: {
-            hue: number;
-            saturation: number;
-            lightness: number;
-        }
-    }
+    light: LightData;
     feedInterval: number;
+}
+
+export type SendData = {
+    light: LightData | undefined,
+    feedInterval: number | undefined
 }
 
 export type LightData = {
     isOn: boolean;
-    color: HSLColorData;
+    color: RGBColorData;
+}
+
+export type RGBColorData = {
+    r: number,
+    g: number,
+    b: number
 }
 
 export type HSLColorData = {

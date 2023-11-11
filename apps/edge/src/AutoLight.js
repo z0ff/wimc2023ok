@@ -1,4 +1,4 @@
-import { requestI2CAccess } from "./node_modules/node-web-i2c/index.js";
+import { requestI2CAccess } from "node-web-i2c";
 import NPIX from "@chirimen/neopixel-i2c";
 
 /**
@@ -11,7 +11,7 @@ import NPIX from "@chirimen/neopixel-i2c";
  */
 export default class AutoLight {
     constructor(status, r, g, b) {
-        /** 点灯状態（1:点灯 0:消灯） */
+        /** 点灯状態（true:点灯 false:消灯） */
         this.status = status;
         /** 赤輝度 */
         this.r = r;
@@ -32,7 +32,7 @@ export default class AutoLight {
         const npix = new NPIX(port, 0x41);
         await npix.init(this.neoPixels);
 
-        if (this.status === 0) {
+        if (this.status === false) {
             this.r = this.g = this.b = 0;
         }
 

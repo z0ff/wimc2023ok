@@ -3,14 +3,19 @@ import BG from "./components/BG.tsx";
 import Body from "./components/Body.tsx";
 import {createContext, Dispatch, SetStateAction, useEffect, useState} from "react";
 import {NextUIProvider} from "@nextui-org/react";
-import DebugControl from "./components/DebugControl.tsx";
+//import DebugControl from "./components/DebugControl.tsx";
 import nodeWebSocketLib from "websocket";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {RelayServer} from "./RelayServer.js";
-import {HSLColorData, LightData, ReceiveData} from "./type";
+import {RGBColorData, LightData, ReceiveData} from "./type";
 
 type TdsState = "Moderate" | "Over" | "Less";
+
+export const FeedIntervalContext = createContext({} as {
+    feedInterval: number | undefined
+    setFeedInterval: Dispatch<SetStateAction<number | undefined>>
+});
 
 export const LightContext = createContext({} as {
     light: LightData | undefined
@@ -19,8 +24,8 @@ export const LightContext = createContext({} as {
 
 // HSLColorData型の値を共有するためのContextを作成
 export const ColorContext = createContext({} as {
-    color: HSLColorData | undefined
-    setColor: Dispatch<SetStateAction<HSLColorData | undefined>>
+    color: RGBColorData | undefined
+    setColor: Dispatch<SetStateAction<RGBColorData | undefined>>
 });
 
 export const TdsContext = createContext({} as {
@@ -43,16 +48,28 @@ export const TempContext = createContext({} as {
     setTemp: Dispatch<SetStateAction<number | undefined>>
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let channel: any;
+
+// メッセージを送信
+export const sendMessage = (message: string) => {
+    if (channel === undefined) {
+        return;
+    }
+    channel.send(message);
+}
+
 export const App = () => {
     const [tds, setTds] = useState<number | undefined>(100);
     const [tdsState, setTdsState] = useState<TdsState | undefined>("Moderate");
     const [ph, setPh] = useState<number | undefined>(7);
     const [temp, setTemp] = useState<number | undefined>(20);
-    const [light, setLight] = useState<LightData | undefined>({isOn: true, color: {hue: 0, saturation: 0, lightness: 0}});
+    const [light, setLight] = useState<LightData | undefined>({isOn: true, color: {r: 0, g: 0, b: 0}});
+    const [feedInterval, setFeedInterval] = useState<number | undefined>(5);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let channel: any;
-    let message: string | undefined
+    //let channel: any;
+    let message: string | undefined;
     let receivedData: ReceiveData | undefined;
 
     useEffect(() => {
@@ -70,7 +87,7 @@ export const App = () => {
             // @ts-ignore
             channel.onmessage = (msg) => {
                 message = msg.data;
-                if (message === undefined) {
+                if (message === undefined || message === "feed") {
                     return;
                 }
                 receivedData = JSON.parse(message);
@@ -81,6 +98,8 @@ export const App = () => {
                 setTds(receivedData.tds);
                 setPh(receivedData.ph);
                 setTemp(receivedData.temp);
+                setLight(receivedData.light);
+                setFeedInterval(receivedData.feedInterval);
             }
         })();
     }, []);
@@ -106,14 +125,17 @@ export const App = () => {
                                 light,
                                 setLight
                             }}>
-                                <BG/>
-                                <Body/>
-                                <p>{light?.isOn}</p>
-                                <p>{light?.color.hue}</p>
-                                <p>{light?.color.saturation}</p>
-                                <p>{light?.color.lightness}</p>
+                                <FeedIntervalContext.Provider value={{
+                                    feedInterval,
+                                    setFeedInterval
+                                }}>
+                                    <BG/>
+                                    <Body/>
+                                </FeedIntervalContext.Provider>
                             </LightContext.Provider>
+                            {/*
                             <DebugControl/>
+                            */}
                         </TempContext.Provider>
                     </PhContext.Provider>
                 </TdsStateContext.Provider>

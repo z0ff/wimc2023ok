@@ -1,5 +1,6 @@
 import nodeWebsocketLib from "websocket"
-import {RelayServer} from "./RelayServer";
+import {RelayServer} from "./RelayServer.js";
+import {feed} from "./FeederController.js";
 
 //const ch = (async() => {
 //    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib);
@@ -12,24 +13,25 @@ let channel;
 
 let lightIsOn = true;
 const lightColor = {
-    hue: 0,
-    saturation: 0,
-    lightness: 0
+    r: 0,
+    g: 0,
+    b: 0
 }
 
 export const getLightIsOn = () => lightIsOn;
 export const getLightColor = () => lightColor;
 
 export async function connectRelay() {
-    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib);
+    const relay = RelayServer("chirimentest", "chirimenSocket", nodeWebsocketLib, "originURL");
     channel = await relay.subscribe("medaka2023");
     channel.onmessage = receiveMsg;
 }
 
-function receiveMsg(msg) {
+async function receiveMsg(msg) {
     console.log(msg.data);
     if (msg.data === "feed") {
         console.log("feed");
+        await feed();
     } else {
         const data = JSON.parse(msg.data);
         if (data.light !== undefined) {
@@ -38,10 +40,10 @@ function receiveMsg(msg) {
                 lightIsOn = data.light.isOn;
             }
             if (data.light.color !== undefined) {
-                console.log("light color: " + data.light.color.hue + ", " + data.light.color.saturation + ", " + data.light.color.lightness);
-                lightColor.hue = data.light.color.hue;
-                lightColor.saturation = data.light.color.saturation;
-                lightColor.lightness = data.light.color.lightness;
+                console.log("light color: " + data.light.color.r + ", " + data.light.color.g + ", " + data.light.color.b);
+                lightColor.r = data.light.color.r;
+                lightColor.g = data.light.color.g;
+                lightColor.b = data.light.color.b;
             }
         }
         if (data.feedInterval !== undefined) {
@@ -53,9 +55,5 @@ function receiveMsg(msg) {
 export async function sendData(data) {
     if (channel === undefined) return;
 
-    while (true) {
-        channel.send(JSON.stringify(data));
-        // 5秒待つ
-        await new Promise(resolve => setTimeout(resolve, 5000));
-    }
+    channel.send(JSON.stringify(data));
 }

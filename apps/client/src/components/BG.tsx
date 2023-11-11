@@ -25,7 +25,7 @@ function draw(canvas: HTMLCanvasElement, color: string) {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     //波の重なりを描画 drawWave(canvas, color[数字（波の数を0から数えて指定）], 透過, 波の幅のzoom,波の開始位置の遅れ )
-    drawWave(canvas, color, 0.5, 3, 0);
+    drawWave(canvas, color, 0.8, 3, 0);
     //drawWave(canvas, color[1], 0.4, 2, 250);
     //drawWave(canvas, color[2], 0.2, 1.6, 100);
 }
@@ -76,7 +76,7 @@ export const BG = () => {
     const {tdsState} = useContext(TdsStateContext);
     const {light} = useContext(LightContext);
     const tdsStateRef = useRef(tdsState);
-    const ligitRef = useRef(light);
+    const lightRef = useRef(light);
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -84,7 +84,7 @@ export const BG = () => {
     }, [tdsState]);
 
     useEffect(() => {
-        ligitRef.current = light;
+        lightRef.current = light;
     }, [light]);
 
     useEffect(() => {
@@ -102,8 +102,9 @@ export const BG = () => {
 
         const update = () => {
             // 背景色の更新
-            if (ligitRef.current?.isOn) {
-                bgColor = `hsl(${ligitRef.current?.color.hue}, ${ligitRef.current?.color.saturation}%, ${ligitRef.current?.color.lightness}%)`;
+            if (lightRef.current?.isOn) {
+                //bgColor = `hsl(${ligitRef.current?.color.hue}, ${ligitRef.current?.color.saturation}%, ${ligitRef.current?.color.lightness}%)`;
+                bgColor = `rgb(${lightRef.current?.color.r}, ${lightRef.current?.color.g}, ${lightRef.current?.color.b})`;
             } else {
                 bgColor = "black";
             }

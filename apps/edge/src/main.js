@@ -1,9 +1,9 @@
 import WaterTemperatureSensor from './WaterTemperatureSensor.js'
 import TdsSensor from './TdsSensor.js'
 import PhSensor from './PhSensor.js'
-import AutoLight from "./AutoLight";
-import {connectRelay, getLightColor, getLightIsOn, sendData} from "./ChirimenClient";
-import convert from 'color-convert';
+import AutoLight from './AutoLight.js';
+import {connectRelay, getLightColor, getLightIsOn, sendData} from "./ChirimenClient.js";
+import {initFeeder} from "./FeederController.js";
 
 const ERROR_VALUE = 85000;
 
@@ -25,6 +25,7 @@ async function sleep(ms) {
 async function main() {
 	// RelayServerに接続する
 	await connectRelay();
+	await initFeeder();
 
 	while (true) {
 		// 水温を取得する
@@ -42,13 +43,10 @@ async function main() {
 		// ライトの点灯状態を取得する
 		const lightIsOn = getLightIsOn();
 		// 照明の色を取得する
-		const lightHslColor = getLightColor();
-
-		// 照明の色をRGBに変換する
-		const lightRgbColor = convert.hsl.rgb(lightHslColor.hue, lightHslColor.saturation, lightHslColor.lightness);
+		const lightRgbColor = getLightColor();
 
 		// ライトを点灯する
-		const autoLight = new AutoLight(Number(lightIsOn), lightRgbColor[0], lightRgbColor[1], lightRgbColor[2]);
+		const autoLight = new AutoLight(lightIsOn, lightRgbColor.r, lightRgbColor.g, lightRgbColor.b);
 		await autoLight.changeStatus();
 
 		// 送信用データを作成する
@@ -58,7 +56,7 @@ async function main() {
 			temp: temperature,
 			light: {
 				isOn: lightIsOn,
-				color: lightHslColor
+				color: lightRgbColor
 			},
 			feedInterval: 1
 		}
