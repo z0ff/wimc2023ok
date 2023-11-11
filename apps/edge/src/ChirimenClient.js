@@ -55,9 +55,5 @@ async function receiveMsg(msg) {
 export async function sendData(data) {
     if (channel === undefined) return;
 
-    while (true) {
-        channel.send(JSON.stringify(data));
-        // 5秒待つ
-        await new Promise(resolve => setTimeout(resolve, 5000));
-    }
+    channel.send(JSON.stringify(data));
 }
