@@ -47,8 +47,9 @@ async function main() {
 		const lightHslColor = getLightColor();
 
 		// 照明の色をRGBに変換する
-		const lightRgbColor = convert.hsl.rgb(lightHslColor.hue, lightHslColor.saturation, lightHslColor.lightness);
+		const lightRgbColor = convert.hsl.rgb([lightHslColor.hue, lightHslColor.saturation, lightHslColor.lightness]);
 		console.log(`r: ${lightRgbColor[0]}, g: ${lightRgbColor[1]}, b: ${lightRgbColor[2]}`);
+
 
 		// ライトを点灯する
 		const autoLight = new AutoLight(lightIsOn, lightRgbColor[0], lightRgbColor[1], lightRgbColor[2]);
