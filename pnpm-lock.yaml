@@ -94,6 +94,9 @@ importers:
       color-convert:
         specifier: ^2.0.1
         version: 2.0.1
+      colortranslator:
+        specifier: ^3.0.2
+        version: 3.0.2
       node-web-gpio:
         specifier: ^1.0.32
         version: 1.0.32
@@ -3080,6 +3083,10 @@ packages:
     dependencies:
       color-convert: 2.0.1
       color-string: 1.9.1
+    dev: false
+
+  /colortranslator@3.0.2:
+    resolution: {integrity: sha512-BAi+1mC33m9WGMrZXGke+IHzs8DDG3EKazim8mJ/kGF3VihNmsV9Yh8mX/9emQK1qThQZ/TatYTxoLUFnCqOOg==}
     dev: false
 
   /commander@4.1.1:
