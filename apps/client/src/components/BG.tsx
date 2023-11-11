@@ -103,7 +103,8 @@ export const BG = () => {
         const update = () => {
             // 背景色の更新
             if (ligitRef.current?.isOn) {
-                bgColor = `hsl(${ligitRef.current?.color.hue}, ${ligitRef.current?.color.saturation}%, ${ligitRef.current?.color.lightness}%)`;
+                //bgColor = `hsl(${ligitRef.current?.color.hue}, ${ligitRef.current?.color.saturation}%, ${ligitRef.current?.color.lightness}%)`;
+                bgColor = `rgb(${ligitRef.current?.color.r}, ${ligitRef.current?.color.g}, ${ligitRef.current?.color.b})`;
             } else {
                 bgColor = "black";
             }

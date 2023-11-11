@@ -2,6 +2,7 @@ import {LightContext, sendMessage} from "../App.tsx";
 import {useContext, useState} from "react";
 import {Card, CardBody, Switch} from "@nextui-org/react";
 import {RgbColorPicker, RgbColor} from "react-colorful";
+import {SendData} from "../type";
 
 export const LightControl = () => {
     const {light, setLight} = useContext(LightContext);
@@ -13,7 +14,11 @@ export const LightControl = () => {
     const handleIsOnToggle = () => {
         setIsOn(!isOn);
         setLight({isOn: isOn!, color: color!});
-        sendMessage(JSON.stringify(light));
+        const sendData: SendData = {
+            light: light,
+            feedInterval: undefined
+        }
+        sendMessage(JSON.stringify(sendData));
     }
 
     const handleColorChange = (color: RgbColor) => {
@@ -23,7 +28,11 @@ export const LightControl = () => {
         setColor({r: color.r, g: color.g, b: color.b});
         //colorRef.current = {hue: color.hsl.h, saturation: color.hsl.s, lightness: color.hsl.l};
         setLight({isOn: isOn!, color: {r: color.r, g: color.g, b: color.b}});
-        sendMessage(JSON.stringify(light));
+        const sendData: SendData = {
+            light: light,
+            feedInterval: undefined
+        }
+        sendMessage(JSON.stringify(sendData));
     }
 
     return (

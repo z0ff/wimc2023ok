@@ -4,6 +4,11 @@ export type ReceiveData = {
     temp: number;
     light: {
         isOn: boolean;
+        //const timeoutId = setTimeout(update, 1000 / 15);
+
+        //return() => {
+        //    clearTimeout(timeoutId);
+        //}
         color: {
             hue: number;
             saturation: number;
@@ -11,6 +16,11 @@ export type ReceiveData = {
         }
     }
     feedInterval: number;
+}
+
+export type SendData = {
+    light: LightData | undefined,
+    feedInterval: number | undefined
 }
 
 export type LightData = {
