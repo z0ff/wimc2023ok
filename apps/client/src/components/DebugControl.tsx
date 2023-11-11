@@ -17,9 +17,9 @@ export const DebugControl = () => {
   const light: LightData = {
     isOn: true,
     color: {
-      hue: 0,
-      saturation: 0,
-      lightness: 0,
+      r: 0,
+      g: 0,
+      b: 0,
     }
   }
 
@@ -66,9 +66,9 @@ export const DebugControl = () => {
             light: {
                 isOn: light.isOn,
                 color: {
-                    hue: light.color.hue,
-                    saturation: light.color.saturation,
-                    lightness: light.color.lightness,
+                    r: light.color.r,
+                    g: light.color.g,
+                    b: light.color.b,
                 }
             },
             feedInterval: 0,
