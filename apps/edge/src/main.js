@@ -54,7 +54,7 @@ async function main() {
 			sender: "edge",
 			tds: tdsValue,
 			ph: phValue,
-			temp: temperature / 100,
+			temp: temperature / 1000,
 			light: {
 				isOn: lightIsOn,
 				color: lightRgbColor
