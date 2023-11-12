@@ -60,6 +60,7 @@ export const DebugControl = () => {
 
       while (true) {
         const sendData: ReceiveData = {
+            sender: "edge",
             tds: Number(tdsInput.value),
             ph: Number(phInput.value),
             temp: Number(tempInput.value),
