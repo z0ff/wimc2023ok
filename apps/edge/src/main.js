@@ -51,6 +51,7 @@ async function main() {
 
 		// 送信用データを作成する
 		const data = {
+			sender: "edge",
 			tds: tdsValue,
 			ph: phValue,
 			temp: temperature,
