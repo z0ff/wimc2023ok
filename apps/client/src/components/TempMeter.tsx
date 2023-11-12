@@ -16,7 +16,7 @@ export const TempMeter = () => {
     const {temp} = useContext(TempContext);
 
     return (
-        <Card isBlurred>
+        <Card isBlurred className={"h-full"}>
             <CardHeader className="h-14">
                 <p>水温(摂氏)</p>
             </CardHeader>

@@ -1,4 +1,5 @@
 export type ReceiveData = {
+    sender: "client" | "edge";
     tds: number;
     ph: number;
     temp: number;

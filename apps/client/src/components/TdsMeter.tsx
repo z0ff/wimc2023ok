@@ -19,7 +19,7 @@ export const TdsMeter = () => {
     const [tdsBase, setTdsBase] = useState(100);
 
     return (
-        <Card isBlurred>
+        <Card isBlurred className={"h-full"}>
             <CardHeader className="h-14">
                 <div className="flex gap-2 items-center">
                 <p className="flex-none">TDS増加量</p>
@@ -63,7 +63,7 @@ export const TdsMeter = () => {
                     }}
                     labels={{
                         valueLabel: {
-                            formatTextValue: value => '+' + value + 'ppm',
+                            formatTextValue: value => `${value > 0 ? '+' : value === 0 ? '±' : ''}` + value + 'ppm',
                             style: {
                                 fontSize: 20,
                                 fill: '#000000',

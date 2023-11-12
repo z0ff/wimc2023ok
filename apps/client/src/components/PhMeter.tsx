@@ -16,7 +16,7 @@ export const PhMeter = () => {
     const {ph} = useContext(PhContext);
 
     return (
-        <Card isBlurred>
+        <Card isBlurred className={"h-full"}>
             <CardHeader className="h-14">
                 <p>pH</p>
             </CardHeader>

@@ -11,9 +11,9 @@ export const LightControl = () => {
     // const isOnRef = useRef(light?.isOn);
     // const colorRef = useRef(light?.color);
 
-    const handleIsOnToggle = () => {
-        setIsOn(!isOn);
-        setLight({isOn: isOn!, color: color!});
+    const handleIsOnToggle = (isSelected: boolean) => {
+        setIsOn(isSelected);
+        setLight({isOn: isSelected, color: color!});
         const sendData: SendData = {
             light: light,
             feedInterval: undefined
@@ -36,10 +36,10 @@ export const LightControl = () => {
     }
 
     return (
-        <Card isBlurred>
-            <CardBody>
+        <Card isBlurred className={"h-full"}>
+            <CardBody className={"m-auto"}>
                 <Switch isSelected={isOn} onValueChange={handleIsOnToggle}>ライト</Switch>
-                <RgbColorPicker onChange={handleColorChange} />
+                <RgbColorPicker onChange={handleColorChange} className={"mt-2"} />
             </CardBody>
         </Card>
     )
