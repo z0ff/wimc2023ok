@@ -37,6 +37,12 @@ export const FeedControl = () => {
                         label="えさをやる間隔"
                         value={feedIntervalInput}
                         onValueChange={setFeedIntervalInput}
+                        endContent={
+                            <div className="pointer-events-none flex items-center">
+                                <span className="text-default-400 text-small">時間</span>
+                            </div>
+                        }
+
                     />
                 </div>
                 <div className="flex-none h-full">

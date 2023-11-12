@@ -91,8 +91,11 @@ export const App = () => {
                     return;
                 }
                 receivedData = JSON.parse(message);
-                console.log(message);
+                //console.log(message);
                 if (receivedData === undefined) {
+                    return;
+                }
+                if (receivedData.sender !== "edge") {
                     return;
                 }
                 setTds(receivedData.tds);
